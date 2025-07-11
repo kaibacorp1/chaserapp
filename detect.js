@@ -1,29 +1,26 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import { detectTransitsForUser } from './transitUtils.js';
-import { sendEmail } from './email.js';
 
-console.log(`[🕒] Starting detection loop...`);
+const config = {
+  lat: -43.154289,
+  lng: 172.738596,
+  elevation: 41,
+  radiusKm: 100,
+  marginDeg: 100,
+  mode: 'sun',
+  emailTo: 'youremail@example.com'
+};
 
 async function runDetectionLoop() {
-  while (true) {
-    try {
-      const results = await detectTransitsForUser();
-
-
-      if (results.length > 0) {
-        console.log(`✅ MATCH DETECTED: ${results.length} result(s)`);
-        await sendEmail(results);
-      } else {
-        console.log(`[📭] No match. Sleeping...`);
-      }
-    } catch (err) {
-      console.error(`[❌] Error during detection:`, err);
+  console.log('[🕒] Starting detection loop...');
+  try {
+    const results = await detectTransitsForUser(config);
+    if (results.length === 0) {
+      console.log('[⛅] No transits detected. Sleeping...');
+    } else {
+      console.log('[🚨] Detected transit events:', results);
     }
-
-    // Wait 2 minutes before next check
-    await new Promise(resolve => setTimeout(resolve, 2 * 60 * 1000));
+  } catch (error) {
+    console.error('[❌] Error during detection:', error);
   }
 }
 
