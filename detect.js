@@ -1,32 +1,29 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+import { detectTransits } from './transitUtils.js';
 import { sendEmail } from './email.js';
 
-console.log('[🧪] Running FAKE detection test...');
+console.log(`[🕒] Starting detection loop...`);
 
-const fakeResult = {
-  flight: 'FAKE123',
-  lat: parseFloat(process.env.LAT),
-  lng: parseFloat(process.env.LNG),
-  altitude: 35000,
-  heading: 270,
-  time: new Date().toISOString(),
-  transit: {
-    alt: 400,
-    az: 220,
-    el: 80,
-    distance: 85
-  },
-  matchedBy: 'test-simulated'
-};
+async function runDetectionLoop() {
+  while (true) {
+    try {
+      const results = await detectTransits();
 
-sendEmail([fakeResult])
-  .then(() => {
-    console.log('[✅] Test email sent successfully!');
-    process.exit(0);
-  })
-  .catch(err => {
-    console.error('[❌] Failed to send test email:', err);
-    process.exit(1);
-  });
+      if (results.length > 0) {
+        console.log(`✅ MATCH DETECTED: ${results.length} result(s)`);
+        await sendEmail(results);
+      } else {
+        console.log(`[📭] No match. Sleeping...`);
+      }
+    } catch (err) {
+      console.error(`[❌] Error during detection:`, err);
+    }
+
+    // Wait 2 minutes before next check
+    await new Promise(resolve => setTimeout(resolve, 2 * 60 * 1000));
+  }
+}
+
+runDetectionLoop();
