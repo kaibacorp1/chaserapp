@@ -7,11 +7,17 @@ console.log('[🧪] Running FAKE detection test...');
 
 const fakeResult = {
   flight: 'FAKE123',
-  lat: process.env.LAT,
-  lng: process.env.LNG,
+  lat: parseFloat(process.env.LAT),
+  lng: parseFloat(process.env.LNG),
   altitude: 35000,
   heading: 270,
   time: new Date().toISOString(),
+  transit: {
+    alt: 400,
+    az: 220,
+    el: 80,
+    distance: 85
+  },
   matchedBy: 'test-simulated'
 };
 
