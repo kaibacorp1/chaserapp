@@ -4,10 +4,12 @@ const config = {
   lat: -43.154289,
   lng: 172.738596,
   elevation: 41,
-  radiusKm: 1000,
-  marginDeg: 200,
+  radiusKm: 300,
+  marginDeg: 100,
   mode: 'sun',
-  emailTo: 'sandu.godakumbura@gmail.com'
+  emailTo: 'sandu.godakumbura@gmail.com',
+  rapidApiKey: process.env.RAPIDAPI_KEY,
+  rapidApiHost: process.env.RAPIDAPI_HOST
 };
 
 async function runDetectionLoop() {
@@ -18,14 +20,12 @@ async function runDetectionLoop() {
       console.log('[⛅] No transits detected. Sleeping...');
     } else {
       console.log('[🚨] Detected transit events:', results);
+      // send email logic goes here
     }
   } catch (error) {
     console.error('[❌] Error during detection:', error);
   }
 }
 
-// 🔁 Keep checking every 60 seconds
 setInterval(runDetectionLoop, 60 * 1000);
-
-// Run immediately once
 runDetectionLoop();
