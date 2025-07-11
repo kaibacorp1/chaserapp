@@ -24,4 +24,8 @@ async function runDetectionLoop() {
   }
 }
 
+// 🔁 Keep checking every 60 seconds
+setInterval(runDetectionLoop, 60 * 1000);
+
+// Run immediately once
 runDetectionLoop();
