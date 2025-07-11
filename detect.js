@@ -1,4 +1,5 @@
 import { detectTransitsForUser } from './transitUtils.js';
+import { sendEmail } from './emailUtils.js'; // 👈 import added
 
 const config = {
   lat: -43.154289,
@@ -20,7 +21,9 @@ async function runDetectionLoop() {
       console.log('[⛅] No transits detected. Sleeping...');
     } else {
       console.log('[🚨] Detected transit events:', results);
-      // send email logic goes here
+
+      // ✅ Send email
+      await sendEmail(config.emailTo, results);
     }
   } catch (error) {
     console.error('[❌] Error during detection:', error);
