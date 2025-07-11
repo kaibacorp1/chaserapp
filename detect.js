@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { detectTransits } from './transitUtils.js';
+import { detectTransitsForUser } from './transitUtils.js';
 import { sendEmail } from './email.js';
 
 console.log(`[🕒] Starting detection loop...`);
