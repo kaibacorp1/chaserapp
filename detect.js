@@ -4,10 +4,10 @@ const config = {
   lat: -43.154289,
   lng: 172.738596,
   elevation: 41,
-  radiusKm: 100,
-  marginDeg: 100,
+  radiusKm: 1000,
+  marginDeg: 200,
   mode: 'sun',
-  emailTo: 'youremail@example.com'
+  emailTo: 'sandu.godakumbura@gmail.com'
 };
 
 async function runDetectionLoop() {
