@@ -9,7 +9,8 @@ console.log(`[🕒] Starting detection loop...`);
 async function runDetectionLoop() {
   while (true) {
     try {
-      const results = await detectTransits();
+      const results = await detectTransitsForUser();
+
 
       if (results.length > 0) {
         console.log(`✅ MATCH DETECTED: ${results.length} result(s)`);
